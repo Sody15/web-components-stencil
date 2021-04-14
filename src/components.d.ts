@@ -11,6 +11,8 @@ export namespace Components {
         "opened": boolean;
         "title": string;
     }
+    interface PsSpinner {
+    }
     interface PsStockFinder {
     }
     interface PsStockPrice {
@@ -26,6 +28,12 @@ declare global {
     var HTMLPsSideDrawerElement: {
         prototype: HTMLPsSideDrawerElement;
         new (): HTMLPsSideDrawerElement;
+    };
+    interface HTMLPsSpinnerElement extends Components.PsSpinner, HTMLStencilElement {
+    }
+    var HTMLPsSpinnerElement: {
+        prototype: HTMLPsSpinnerElement;
+        new (): HTMLPsSpinnerElement;
     };
     interface HTMLPsStockFinderElement extends Components.PsStockFinder, HTMLStencilElement {
     }
@@ -47,6 +55,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ps-side-drawer": HTMLPsSideDrawerElement;
+        "ps-spinner": HTMLPsSpinnerElement;
         "ps-stock-finder": HTMLPsStockFinderElement;
         "ps-stock-price": HTMLPsStockPriceElement;
         "ps-tooltip": HTMLPsTooltipElement;
@@ -56,6 +65,8 @@ declare namespace LocalJSX {
     interface PsSideDrawer {
         "opened"?: boolean;
         "title"?: string;
+    }
+    interface PsSpinner {
     }
     interface PsStockFinder {
         "onPsSymbolSelected"?: (event: CustomEvent<string>) => void;
@@ -68,6 +79,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "ps-side-drawer": PsSideDrawer;
+        "ps-spinner": PsSpinner;
         "ps-stock-finder": PsStockFinder;
         "ps-stock-price": PsStockPrice;
         "ps-tooltip": PsTooltip;
@@ -78,6 +90,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "ps-side-drawer": LocalJSX.PsSideDrawer & JSXBase.HTMLAttributes<HTMLPsSideDrawerElement>;
+            "ps-spinner": LocalJSX.PsSpinner & JSXBase.HTMLAttributes<HTMLPsSpinnerElement>;
             "ps-stock-finder": LocalJSX.PsStockFinder & JSXBase.HTMLAttributes<HTMLPsStockFinderElement>;
             "ps-stock-price": LocalJSX.PsStockPrice & JSXBase.HTMLAttributes<HTMLPsStockPriceElement>;
             "ps-tooltip": LocalJSX.PsTooltip & JSXBase.HTMLAttributes<HTMLPsTooltipElement>;

@@ -16,6 +16,7 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+  @State() loading = false;
 
   @Prop({ mutable: true, reflect: true }) stockSymbol: string;
 
@@ -23,6 +24,7 @@ export class StockPrice {
   stockSymbolChanged(newValue: string, oldValue: string) {
     if (newValue !== oldValue) {
       this.stockUserInput = newValue;
+      this.stockInputValid = true;
       this.fetchStockPrice(newValue);
     }
   }
@@ -63,7 +65,7 @@ export class StockPrice {
   onStockSymbolSelected(event: CustomEvent) {
     console.log('stock symbol selected' + event.detail);
     if (event.detail && event.detail !== this.stockSymbol) {
-      this.fetchStockPrice(event.detail);
+      this.stockSymbol = event.detail;
     }
   }
 
@@ -86,7 +88,10 @@ export class StockPrice {
   }
 
   fetchStockPrice(stockSymbol: string) {
+    this.loading = true;
+
     const url = `${AV_API.getStockPrice}${stockSymbol}&apikey=${AV_API_KEY}`;
+
     fetch(url)
       .then((res) => {
         if (res.status !== 200) {
@@ -100,8 +105,20 @@ export class StockPrice {
         }
         this.error = null;
         this.price = +parsedRes['Global Quote']['05. price'];
+        this.loading = false;
       })
-      .catch((err) => (this.error = err.message));
+      .catch((err) => {
+        this.error = err.message;
+        this.price = null;
+        this.loading = false;
+      });
+  }
+
+  // Add error class if has error
+  hostData() {
+    return {
+      class: this.error ? 'error' : '',
+    };
   }
 
   render() {
@@ -112,6 +129,10 @@ export class StockPrice {
     if (this.price) {
       dataContent = <p>Price: ${this.price}</p>;
     }
+    if (this.loading) {
+      dataContent = <ps-spinner></ps-spinner>;
+    }
+
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
         <input
@@ -120,7 +141,7 @@ export class StockPrice {
           value={this.stockSymbol}
           onInput={this.onUserInput.bind(this)}
         />
-        <button type='submit' disabled={!this.stockInputValid}>
+        <button type='submit' disabled={!this.stockInputValid || this.loading}>
           Fetch
         </button>
       </form>,

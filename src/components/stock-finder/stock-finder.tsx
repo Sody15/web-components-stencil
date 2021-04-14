@@ -15,11 +15,13 @@ export class StockFinder {
   stockNameInput: HTMLInputElement;
 
   @State() searchResults: StockInfo[] = [];
+  @State() loading = false;
 
   @Event({ bubbles: true, composed: true }) psSymbolSelected: EventEmitter<string>;
 
   onFindStocks(event: Event) {
     event.preventDefault();
+    this.loading = true;
 
     const stockName = this.stockNameInput.value;
     const url = `${AV_API.getSearch}&keywords=${stockName}&apikey=${AV_API_KEY}`;
@@ -35,8 +37,12 @@ export class StockFinder {
           };
         });
         console.log(this.searchResults);
+        this.loading = false;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        this.loading = false;
+      });
   }
 
   onSelectSymbol(symbol: string) {
@@ -44,11 +50,7 @@ export class StockFinder {
   }
 
   render() {
-    return [
-      <form onSubmit={this.onFindStocks.bind(this)}>
-        <input id='stock-symbol' ref={(el) => (this.stockNameInput = el)} />
-        <button type='submit'>Fetch</button>
-      </form>,
+    let content = (
       <ul>
         {this.searchResults
           .filter((result) => result.name)
@@ -57,7 +59,19 @@ export class StockFinder {
               <strong>{result.symbol}</strong> - {result.name}
             </li>
           ))}
-      </ul>,
+      </ul>
+    );
+
+    if (this.loading) {
+      content = <ps-spinner />;
+    }
+
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id='stock-symbol' ref={(el) => (this.stockNameInput = el)} />
+        <button type='submit'>Fetch</button>
+      </form>,
+      content,
     ];
   }
 }
