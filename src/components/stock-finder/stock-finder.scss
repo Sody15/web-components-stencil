@@ -1,0 +1,60 @@
+:host {
+  font-family: sans-serif;
+  border: 2px solid #580058;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+form {
+  input {
+    display: block;
+    margin-bottom: 0.5rem;
+    font: inherit;
+    color: #580058;
+    padding: 0.15rem 0.25rem;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    font: inherit;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #580058;
+    background: #580058;
+    color: white;
+    cursor: pointer;
+    &:hover,
+    &:active {
+      background: #8b008b;
+      border-color: #8b008b;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:disabled {
+      background: #ccc;
+      border-color: #ccc;
+      color: white;
+      cursor: not-allowed;
+    }
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    margin: 0.25rem 0;
+    padding: 0.25rem;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    &:hover,
+    &:active {
+      background-color: #580058;
+      color: white;
+    }
+  }
+}

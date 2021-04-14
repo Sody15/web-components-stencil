@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      .side-nav ul {
+        list-style: none;
+      }
+      .side-nav li {
+        margin: 1rem 0;
+      }
+      .side-nav a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+
+    <script type="module" src="/build/stencil-components.esm.js"></script>
+    <script nomodule src="/build/stencil-components.js"></script>
+  </head>
+  <body>
+    <!-- <button id="side-drawer-btn" style="background: black; color: white">Open Side Menu</button>
+    <ps-side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li><a href="/">A Link</a></li>
+          <li><a href="/">Another Link</a></li>
+          <li><a href="/">A Third Link</a></li>
+        </ul>
+      </nav>
+    </ps-side-drawer>
+
+    <ps-tooltip text="We built this before, now it is better">Let's test this new Tooltip!</ps-tooltip> -->
+
+    <!-- <ps-stock-price></ps-stock-price> -->
+    <ps-stock-price stock-symbol="AAPL"></ps-stock-price>
+
+    <ps-stock-finder></ps-stock-finder>
+
+    <script>
+      // const sideDrawerButton = document.querySelector('#side-drawer-btn');
+      // const sideDrawer = document.querySelector('ps-side-drawer');
+      // sideDrawerButton.addEventListener('click', () => {
+      //   if (!sideDrawer.opened) {
+      //     sideDrawer.open();
+      //   }
+      // });
+
+      const stockFinderEl = document.querySelector('ps-stock-finder');
+      stockFinderEl.addEventListener('psSymbolSelected', (event) => {
+        console.log(event.detail);
+      });
+    </script>
+  </body>
+</html>
